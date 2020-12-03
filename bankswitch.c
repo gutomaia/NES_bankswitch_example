@@ -41,10 +41,19 @@ PRG ROM segments (CODE0-CODE6, CODE).
 const unsigned char TEXT0[]={"Bank 0 @ 8000"};
 #pragma rodata-name("CODE1")
 const unsigned char TEXT1[]={"Bank 1 @ 8000"};
+#pragma rodata-name("CODE2")
+const unsigned char TEXT2[]={"Bank 2 @ 8000"};
+#pragma rodata-name("CODE3")
+const unsigned char TEXT3[]={"Bank 3 @ A000"};
+#pragma rodata-name("CODE4")
+const unsigned char TEXT4[]={"Bank 4 @ A000"};
 #pragma rodata-name("CODE5")
 const unsigned char TEXT5[]={"Bank 5 @ A000"};
 #pragma rodata-name("CODE6")
-const unsigned char TEXT6[]={"Bank 6 @ C000"};
+const unsigned char TEXT6[]={"Bank 6 @ C000 * Fixed"};
+#pragma rodata-name("CODE")
+const unsigned char TEXT7[]={"Bank 7 @ E000 * Fixed"};
+
 
 // put functions in bank 1
 #pragma code-name("CODE1")
@@ -74,11 +83,23 @@ void main(void)
   // also needed to call draw_text()
   MMC3_PRG_8000(1);
   draw_text(NTADR_A(2,3), TEXT1);
+
+  // FIXME: MMC3_PRG_8000(2);
+  // TODO: draw_text(NTADR_A(2,4), TEXT2);
+
+  MMC3_PRG_A000(3);
+  draw_text(NTADR_A(2,5), TEXT3);
+  MMC3_PRG_A000(4);
+  draw_text(NTADR_A(2,6), TEXT4);
+
   // select bank 5 in $a000-$bfff
   MMC3_PRG_A000(5);
-  draw_text(NTADR_A(2,4), TEXT5);
+  draw_text(NTADR_A(2,7), TEXT5);
   // $c000-$dfff is fixed to bank 6
-  draw_text(NTADR_A(2,5), TEXT6);
+  draw_text(NTADR_A(2,8), TEXT6);
+
+  draw_text(NTADR_A(2,9), TEXT7);
+
   //enable rendering
   ppu_on_all();
   while(1);//do nothing, infinite loop
