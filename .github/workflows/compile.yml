@@ -1,4 +1,4 @@
-name: quiz.nes
+name: bankswitch.nes
 
 on: [push]
 
@@ -11,12 +11,11 @@ jobs:
         python-version: [3.6]
     steps:
       - name: Checkout project
-        shell: bash
-        env:
-          SSH_KEY: ${{secrets.SSH_KEY}}
-        run: |
-          mkdir $HOME/.ssh && echo "$SSH_KEY" > $HOME/.ssh/id_rsa && chmod 600 $HOME/.ssh/id_rsa
-          git submodule update --init --recursive
+        uses: actions/checkout@v1
+      - name: Checkout submodules
+        uses: srt32/git-actions@v0.0.3
+        with:
+          args: git submodule update --init --recursive
       - name: Install CC65
         run: |
           sudo apt-get install -y cc65
