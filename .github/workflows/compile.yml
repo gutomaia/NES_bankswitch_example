@@ -1,0 +1,53 @@
+name: quiz.nes
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.6]
+    steps:
+      - name: Checkout project
+        shell: bash
+        env:
+          SSH_KEY: ${{secrets.SSH_KEY}}
+        run: |
+          mkdir $HOME/.ssh && echo "$SSH_KEY" > $HOME/.ssh/id_rsa && chmod 600 $HOME/.ssh/id_rsa
+          git submodule update --init --recursive
+      - name: Install CC65
+        run: |
+          sudo apt-get install -y cc65
+      - name: Makefile
+        run: make
+      - name: Upload build
+        uses: actions/upload-artifact@v2
+        with:
+          name: bankswitch.nes
+          path: bin/bankswitch.nes
+  notify_email:
+    needs: [build]
+    if:
+      contains('refs/heads/0.0.x
+                refs/heads/feat/', github.ref)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+          name: bankswitch.nes
+      - name: Notify email
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: NES Quiz version
+          body: Latest build of ${{github.repository}}!
+          to: guto@guto.net
+          from: Bilbo Baggins
+          content_type: text/html
+          attachments: bankswitch.nes
