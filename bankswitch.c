@@ -76,8 +76,7 @@ const unsigned char TEXT15[]={"Bank 15 @ E000 * Fixed"};
 
 
 // put functions in bank 1
-#pragma code-name("CODE1")
-
+#pragma code-name("CODE14")
 void draw_text(word addr, const char* text) {
   vram_adr(addr);
   vram_write(text, strlen(text));
@@ -88,15 +87,16 @@ void draw_text(word addr, const char* text) {
 
 void main(void)
 {
+  MMC3_CHR_0000(0);
+  MMC3_CHR_0800(1);
+  MMC3_PRG_8000(0);
+  MMC3_PRG_A000(7);
   // set palette colors
   pal_col(1,0x04);
   pal_col(2,0x20);
   pal_col(3,0x30);
   // setup CHR bank switching for background
-  MMC3_CHR_0000(0);
-  MMC3_CHR_0800(1);
   // select bank 0 in $8000-$9fff
-  MMC3_PRG_8000(0);
   vram_adr(NTADR_A(2,1));
   vram_write(TEXT0, 14);
 
