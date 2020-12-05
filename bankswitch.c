@@ -105,20 +105,20 @@ void main(void)
   MMC3_PRG_8000(1);
   draw_text(NTADR_A(2,2), TEXT1);
 
-  // MMC3_PRG_8000(2);
-  // draw_text(NTADR_A(2,3), TEXT2);
+  MMC3_PRG_8000(2);
+  draw_text(NTADR_A(2,3), TEXT2);
 
-  // MMC3_PRG_8000(3);
-  // draw_text(NTADR_A(2,4), TEXT3);
+  MMC3_PRG_8000(3);
+  draw_text(NTADR_A(2,4), TEXT3);
 
-  // MMC3_PRG_8000(4);
-  // draw_text(NTADR_A(2,5), TEXT4);
+  MMC3_PRG_8000(4);
+  draw_text(NTADR_A(2,5), TEXT4);
 
-  // MMC3_PRG_8000(5);
-  // draw_text(NTADR_A(2,6), TEXT5);
+  MMC3_PRG_8000(5);
+  draw_text(NTADR_A(2,6), TEXT5);
 
-  // MMC3_PRG_8000(6);
-  // draw_text(NTADR_A(2,7), TEXT6);
+  MMC3_PRG_8000(6);
+  draw_text(NTADR_A(2,7), TEXT6);
 
   // select bank 5 in $a000-$bfff
   MMC3_PRG_A000(7);
