@@ -56,7 +56,7 @@ const unsigned char TEXT7[]={"Bank 7 @ E000 * Fixed"};
 
 
 // put functions in bank 1
-#pragma code-name("CODE1")
+#pragma code-name("CODE6")
 
 void draw_text(word addr, const char* text) {
   vram_adr(addr);
@@ -84,8 +84,8 @@ void main(void)
   MMC3_PRG_8000(1);
   draw_text(NTADR_A(2,3), TEXT1);
 
-  // FIXME: MMC3_PRG_8000(2);
-  // TODO: draw_text(NTADR_A(2,4), TEXT2);
+  MMC3_PRG_8000(2);
+  draw_text(NTADR_A(2,4), TEXT2);
 
   MMC3_PRG_A000(3);
   draw_text(NTADR_A(2,5), TEXT3);
