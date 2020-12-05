@@ -38,21 +38,41 @@ PRG ROM segments (CODE0-CODE6, CODE).
 #define MMC3_MIRROR(n) POKE(0xa000, (n))
 
 #pragma rodata-name("CODE0")
-const unsigned char TEXT0[]={"Bank 0 @ 8000"};
+const unsigned char TEXT0[]={"Bank  0 @ 8000"};
 #pragma rodata-name("CODE1")
-const unsigned char TEXT1[]={"Bank 1 @ 8000"};
+const unsigned char TEXT1[]={"Bank  1 @ 8000"};
 #pragma rodata-name("CODE2")
-const unsigned char TEXT2[]={"Bank 2 @ 8000"};
+const unsigned char TEXT2[]={"Bank  2 @ 8000"};
 #pragma rodata-name("CODE3")
-const unsigned char TEXT3[]={"Bank 3 @ A000"};
+const unsigned char TEXT3[]={"Bank  3 @ 8000"};
 #pragma rodata-name("CODE4")
-const unsigned char TEXT4[]={"Bank 4 @ A000"};
+const unsigned char TEXT4[]={"Bank  4 @ 8000"};
 #pragma rodata-name("CODE5")
-const unsigned char TEXT5[]={"Bank 5 @ A000"};
+const unsigned char TEXT5[]={"Bank  5 @ 8000"};
 #pragma rodata-name("CODE6")
-const unsigned char TEXT6[]={"Bank 6 @ C000 * Fixed"};
+const unsigned char TEXT6[]={"Bank  6 @ 8000"};
+
+#pragma rodata-name("CODE7")
+const unsigned char TEXT7[]={"Bank  7 @ A000"};
+#pragma rodata-name("CODE8")
+const unsigned char TEXT8[]={"Bank  8 @ A000"};
+#pragma rodata-name("CODE9")
+const unsigned char TEXT9[]={"Bank  9 @ A000"};
+#pragma rodata-name("CODE10")
+const unsigned char TEXT10[]={"Bank 10 @ A000"};
+#pragma rodata-name("CODE11")
+const unsigned char TEXT11[]={"Bank 11 @ A000"};
+#pragma rodata-name("CODE12")
+const unsigned char TEXT12[]={"Bank 12 @ A000"};
+#pragma rodata-name("CODE13")
+const unsigned char TEXT13[]={"Bank 13 @ A000"};
+
+
+
+#pragma rodata-name("CODE14")
+const unsigned char TEXT14[]={"Bank 14 @ C000 * Fixed"};
 #pragma rodata-name("CODE")
-const unsigned char TEXT7[]={"Bank 7 @ E000 * Fixed"};
+const unsigned char TEXT15[]={"Bank 15 @ E000 * Fixed"};
 
 
 // put functions in bank 1
@@ -77,28 +97,50 @@ void main(void)
   MMC3_CHR_0800(1);
   // select bank 0 in $8000-$9fff
   MMC3_PRG_8000(0);
-  vram_adr(NTADR_A(2,2));
-  vram_write(TEXT0, 13);
+  vram_adr(NTADR_A(2,1));
+  vram_write(TEXT0, 14);
+
   // select bank 1 in $8000-$9fff
   // also needed to call draw_text()
   MMC3_PRG_8000(1);
-  draw_text(NTADR_A(2,3), TEXT1);
+  draw_text(NTADR_A(2,2), TEXT1);
 
-  // FIXME: MMC3_PRG_8000(2);
-  // TODO: draw_text(NTADR_A(2,4), TEXT2);
+  // MMC3_PRG_8000(2);
+  // draw_text(NTADR_A(2,3), TEXT2);
 
-  MMC3_PRG_A000(3);
-  draw_text(NTADR_A(2,5), TEXT3);
-  MMC3_PRG_A000(4);
-  draw_text(NTADR_A(2,6), TEXT4);
+  // MMC3_PRG_8000(3);
+  // draw_text(NTADR_A(2,4), TEXT3);
+
+  // MMC3_PRG_8000(4);
+  // draw_text(NTADR_A(2,5), TEXT4);
+
+  // MMC3_PRG_8000(5);
+  // draw_text(NTADR_A(2,6), TEXT5);
+
+  // MMC3_PRG_8000(6);
+  // draw_text(NTADR_A(2,7), TEXT6);
 
   // select bank 5 in $a000-$bfff
-  MMC3_PRG_A000(5);
-  draw_text(NTADR_A(2,7), TEXT5);
-  // $c000-$dfff is fixed to bank 6
-  draw_text(NTADR_A(2,8), TEXT6);
+  MMC3_PRG_A000(7);
+  draw_text(NTADR_A(2,8), TEXT7);
+  MMC3_PRG_A000(8);
+  draw_text(NTADR_A(2,9), TEXT8);
+  MMC3_PRG_A000(9);
+  draw_text(NTADR_A(2,10), TEXT9);
+  MMC3_PRG_A000(10);
+  draw_text(NTADR_A(2,11), TEXT10);
+  MMC3_PRG_A000(11);
+  draw_text(NTADR_A(2,12), TEXT11);
+  MMC3_PRG_A000(12);
+  draw_text(NTADR_A(2,13), TEXT12);
+  MMC3_PRG_A000(13);
+  draw_text(NTADR_A(2,14), TEXT13);
 
-  draw_text(NTADR_A(2,9), TEXT7);
+
+
+  // $c000-$dfff is fixed to bank 6
+  draw_text(NTADR_A(2,15), TEXT14);
+  draw_text(NTADR_A(2,16), TEXT15);
 
   //enable rendering
   ppu_on_all();
