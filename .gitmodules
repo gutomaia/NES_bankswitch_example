@@ -1,3 +1,6 @@
 [submodule "neslib"]
 	path = neslib
 	url = https://github.com/sehugg/neslib
+[submodule "cc65"]
+	path = cc65
+	url = https://github.com/cc65/cc65

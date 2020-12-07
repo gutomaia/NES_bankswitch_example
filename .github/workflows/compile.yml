@@ -16,9 +16,6 @@ jobs:
         uses: srt32/git-actions@v0.0.3
         with:
           args: git submodule update --init --recursive
-      - name: Install CC65
-        run: |
-          sudo apt-get install -y cc65
       - name: Makefile
         run: make
       - name: Upload build
