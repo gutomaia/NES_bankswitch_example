@@ -1,4 +1,5 @@
 .PHONY: all clean
+PLATFORM = $(shell uname -s)
 
 NAME = bin/bankswitch.nes
 
@@ -14,6 +15,12 @@ SRC += $(wildcard neslib/*.s)
 OBJ = $(SRC:.c=.o)
 OBJ := $(OBJ:.s=.o)
 
+ifeq ($(PLATFORM), Linux)
+    SEDFLAGS = -i
+endif
+ifeq ($(PLATFORM),Darwin)
+    SEDFLAGS = -i ''
+endif
 
 all: $(NAME)
 
@@ -22,6 +29,7 @@ cc65/Makefile:
 
 cc65/lib/nes.lib: cc65/Makefile cc65/bin/ar65 cc65/bin/cc65 cc65/bin/ld65 cc65/bin/ca65
 	$(MAKE) -C cc65 nes
+	cc65/bin/ar65 d $@ condes.o
 	touch $@
 
 cc65/bin/ar65: cc65/Makefile
@@ -44,6 +52,8 @@ neslib/Makefile:
 
 neslib/neslib2.lib: neslib/Makefile cc65/bin/cl65
 	cd neslib && sed 's/$$(CC65DIR)\/bin\//..\/cc65\/bin\//g' Makefile > Makefile.out
+	cd neslib && sed $(SEDFLAGS) 's/initlib,//g' crt0.s
+	cd neslib && sed $(SEDFLAGS) -E 's/jsr.+initlib//g' crt0.s
 	$(MAKE) -C neslib -f Makefile.out neslib2.lib
 
 %.o: %.c
