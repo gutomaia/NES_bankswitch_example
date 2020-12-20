@@ -69,6 +69,17 @@ TEMP: 			.res 11
 
 .segment "STARTUP"
 
+; startup values for the 8 MMC3 registers
+mmc3_register_init:
+.byte $00 ; 2KB CHR $0000
+.byte $02 ; 2KB CHR $0800
+.byte $04 ; 1KB CHR $1000
+.byte $05 ; 1KB CHR $1500
+.byte $06 ; 1KB CHR $1800
+.byte $07 ; 1KB CHR $1C00
+.byte $00 ; 4KB PRG $8000
+.byte $01 ; 4KB PRG $A000
+
 start:
 _exit:
 
@@ -79,6 +90,20 @@ _exit:
     stx PPU_MASK
     stx DMC_FREQ
     stx PPU_CTRL		;no NMI
+
+	; initialize all registers of MMC3
+initMMC3:
+	lda #0
+	sta $E000 ; IRQ disable
+	sta $A000 ; mirroring init
+	tax
+:
+	stx $8000 ; select register
+	lda mmc3_register_init, X
+	sta $8001 ; initialize regiter
+	inx
+	cpx #8
+	bcc :-
 
 initPPU:
 
