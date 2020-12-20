@@ -1,10 +1,11 @@
 .PHONY: all clean
 
 NAME = bin/bankswitch.nes
+MAP = bin/bankswitch.map
 
 # cl65 -t nes -Oisr -c crt0.s
 
-CFLAGS =-t nes -Oisr --include-dir neslib
+CFLAGS =-t nes -Oisr -g --include-dir neslib
 CC = cl65
 
 SRC = $(wildcard *.c)
@@ -28,7 +29,7 @@ neslib/Makefile:
 
 $(NAME): $(OBJ) nes.cfg
 	mkdir -p bin
-	$(CC) -o $(NAME) $(CFLAGS) -C nes.cfg  $(OBJ)
+	$(CC) -o $(NAME) -m $(MAP) $(CFLAGS) -C nes.cfg  $(OBJ)
 
 $(OBJ): $(wildcard *.h *.sinc)
 
@@ -36,4 +37,4 @@ run: $(NAME)
 	/Applications/fceux.app/Contents/MacOS/fceux $(NAME)
 
 clean:
-	rm -f $(NAME) *.o
+	rm -f $(NAME) $(MAP) *.o
