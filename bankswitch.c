@@ -63,9 +63,9 @@ void main(void)
   pal_col(1,0x04);
   pal_col(2,0x20);
   pal_col(3,0x30);
-  // setup CHR bank switching for background
+  // setup CHR bank switching for background to first 2 2K banks
   MMC3_CHR_0000(0);
-  MMC3_CHR_0800(1);
+  MMC3_CHR_0800(2);
   // select bank 0 in $8000-$9fff
   MMC3_PRG_8000(0);
   vram_adr(NTADR_A(2,2));
