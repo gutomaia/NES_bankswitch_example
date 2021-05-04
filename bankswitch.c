@@ -64,7 +64,6 @@ void load_chars(){
   int i=0;
   int j=0;
 
-  ppu_off();
   vram_adr(0);
   for (i=0; i < 128; i++) {
     for (j=0; j< 64; j++) {
@@ -72,12 +71,12 @@ void load_chars(){
       tile++;
     }
   }
-  ppu_on_all();
 }
 
 void main(void)
 {
   // set palette colors
+  ppu_off();
   load_chars();
   pal_col(1,0x04);
   pal_col(2,0x20);
