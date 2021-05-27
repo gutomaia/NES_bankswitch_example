@@ -12,6 +12,7 @@ PRG ROM segments (CODE0-CODE6, CODE).
 #define NES_MAPPER 4        // Mapper 4 (MMC3)
 #define NES_PRG_BANKS 8     // # of 16KB PRG banks
 #define NES_CHR_BANKS 0     // # of 8KB CHR banks
+#define NES_MIRRORING 0     // Horizontal
 
 #include <peekpoke.h>
 #include <string.h>
