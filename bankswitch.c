@@ -96,8 +96,8 @@ void load_chars(){
   int j=0;
 
   vram_adr(0);
-  for (i=0; i < 128; i++) {
-    for (j=0; j< 64; j++) {
+  for (i=0; i < 255; i++) {
+    for (j=0; j< 16; j++) {
       vram_put(*tile);
       tile++;
     }
