@@ -109,8 +109,9 @@ void main(void)
   // set palette colors
   ppu_off();
   load_chars();
+  pal_col(0,0x02);
   pal_col(1,0x04);
-  pal_col(2,0x20);
+  pal_col(2,0x23);
   pal_col(3,0x30);
   // setup CHR bank switching for background to first 2 2K banks
   //MMC3_CHR_0000(0);
