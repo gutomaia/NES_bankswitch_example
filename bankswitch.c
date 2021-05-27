@@ -64,7 +64,11 @@ const unsigned char TEXT12[]={"Bank 12 @ A000"};
 const unsigned char TEXT13[]={"Bank 13 @ A000"};
 #pragma rodata-name("CODE14")
 const unsigned char TEXT14[]={"Bank 14 @ A000 * FIXED"};
-
+#pragma rodata-name("CODE13")
+const unsigned char NUMBERS[]={"0123456789"};
+const unsigned char ALPHAUP[]={"ABCDEFGHIJKLMNKOPQRSTVWXYZ"};
+const unsigned char ALPHALOWER[]={"abcdefghijklmnkopqrstvwxyz"};
+const unsigned char SYMBOLS[]={"!\"#$%&'()=+,-./:;<=>?"};
 
 
 #pragma code-name("CODE")
@@ -157,6 +161,12 @@ void main(void)
 
   MMC3_PRG_A000(14);
   draw_text(NTADR_A(2,16), TEXT14);
+
+  MMC3_PRG_A000(13);
+  draw_text(NTADR_A(2,18), NUMBERS);
+  draw_text(NTADR_A(2,19), ALPHAUP);
+  draw_text(NTADR_A(2,20), ALPHALOWER);
+  draw_text(NTADR_A(2,21), SYMBOLS);
 
   ppu_on_all();
   while(1);//do nothing, infinite loop
