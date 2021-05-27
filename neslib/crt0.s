@@ -96,6 +96,7 @@ initMMC3:
 	lda #0
 	sta $E000 ; IRQ disable
 	sta $A000 ; mirroring init
+    sta $A001
 	tax
 :
 	stx $8000 ; select register
