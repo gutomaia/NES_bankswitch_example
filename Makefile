@@ -7,6 +7,7 @@ MAP = bin/bankswitch.map
 
 CFLAGS =-t nes -Oisr -g --include-dir neslib
 CC = cl65
+LD = ld65
 
 SRC = $(wildcard *.c)
 SRC += $(wildcard *.s)
@@ -22,14 +23,14 @@ neslib/Makefile:
 	git submodule update --init --recursive
 
 %.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@ --listing $<.lst
+	$(CC) -c $(CFLAGS) -l $<.lst $< -o $@
 
 %.o: %.s
-	$(CC) -c $(CFLAGS) $< -o $@ --listing $<.lst
+	$(CC) -c $(CFLAGS) $< -o $@
 
 $(NAME): $(OBJ) nes.cfg
 	mkdir -p bin
-	$(CC) -o $(NAME) -m $(MAP) $(CFLAGS) -C nes.cfg  $(OBJ)
+	$(LD) -o $(NAME) -m $(MAP) -C nes.cfg  $(OBJ) nes.lib --dbgfile $(basename $(NAME)).dbg
 
 $(OBJ): $(wildcard *.h *.sinc)
 

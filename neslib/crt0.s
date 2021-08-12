@@ -58,7 +58,7 @@ TEMP: 			.res 11
 
 .segment "HEADER"
 
-    .byte $4e,$45,$53,$1a
+	.byte $4e,$45,$53,$1a
 	.byte <NES_PRG_BANKS
 	.byte <NES_CHR_BANKS
 	.byte <NES_MIRRORING|(<NES_MAPPER<<4)
@@ -77,44 +77,44 @@ mmc3_register_init:
 .byte $05 ; 1KB CHR $1500
 .byte $06 ; 1KB CHR $1800
 .byte $07 ; 1KB CHR $1C00
-.byte $00 ; 4KB PRG $8000
-.byte $01 ; 4KB PRG $A000
+.byte $00 ; 8KB PRG $8000
+.byte $01 ; 8KB PRG $A000
 
 start:
 _exit:
 
-    sei
-    ldx #$ff
-    txs
-    inx
-    stx PPU_MASK
-    stx DMC_FREQ
-    stx PPU_CTRL		;no NMI
+	sei
+	ldx #$ff
+	txs
+	inx
+	stx PPU_MASK
+	stx DMC_FREQ
+	stx PPU_CTRL ;no NMI
 
 	; initialize all registers of MMC3
 initMMC3:
 	lda #0
 	sta $E000 ; IRQ disable
 	sta $A000 ; mirroring init
-    sta $A001
+	sta $A001
 	tax
 :
 	stx $8000 ; select register
 	lda mmc3_register_init, X
-	sta $8001 ; initialize regiter
+	sta $8001 ; initialize register
 	inx
 	cpx #8
 	bcc :-
 
 initPPU:
 
-    bit PPU_STATUS
+	bit PPU_STATUS
 @1:
-    bit PPU_STATUS
-    bpl @1
+	bit PPU_STATUS
+	bpl @1
 @2:
-    bit PPU_STATUS
-    bpl @2
+	bit PPU_STATUS
+	bpl @2
 
 ; no APU frame counter IRQs
 	lda #$40
@@ -148,18 +148,18 @@ clearVRAM:
 
 clearRAM:
 
-    txa
+	txa
 @1:
-    sta $000,x
-    sta $100,x
-    sta $200,x
-    sta $300,x
-    sta $400,x
-    sta $500,x
-    sta $600,x
-    sta $700,x
-    inx
-    bne @1
+	sta $000,x
+	sta $100,x
+	sta $200,x
+	sta $300,x
+	sta $400,x
+	sta $500,x
+	sta $600,x
+	sta $700,x
+	inx
+	bne @1
 
 	lda #4
 	jsr _pal_bright
@@ -169,15 +169,15 @@ clearRAM:
     jsr	zerobss
 	jsr	copydata
 
-    lda #<(__RAM_START__+__RAM_SIZE__)
-    sta	sp
-    lda	#>(__RAM_START__+__RAM_SIZE__)
-    sta	sp+1            ; Set argument stack ptr
+	lda #<(__RAM_START__+__RAM_SIZE__)
+	sta	sp
+	lda	#>(__RAM_START__+__RAM_SIZE__)
+	sta	sp+1            ; Set argument stack ptr
 
 	jsr	initlib
 
 ; setup NMICallback trampoline to NOP
-	lda #$4C	;JMP xxxx
+	lda #$4C ;JMP xxxx
 	sta NMICallback
 	lda #<HandyRTS
 	sta NMICallback+1
@@ -186,7 +186,7 @@ clearRAM:
 
 	lda #%10000000
 	sta <PPU_CTRL_VAR
-	sta PPU_CTRL		;enable NMI
+	sta PPU_CTRL ;enable NMI
 	lda #%00000110
 	sta <PPU_MASK_VAR
 
@@ -196,17 +196,21 @@ waitSync3:
 	cmp <FRAME_CNT1
 	beq @1
 
-detectNTSC:
-	ldx #52				;blargg's code
-	ldy #24
-@1:
-	dex
-	bne @1
-	dey
-	bne @1
+;detectNTSC:
+;	ldx #52 ;blargg's code
+;	ldy #24
+;@1:
+;	dex
+;	bne @1
+;	dey
+;	bne @1
+;
+;	lda PPU_STATUS
+;	and #$80
+;	sta <NTSC_MODE
 
-	lda PPU_STATUS
-	and #$80
+	; force "detection" as NTSC
+	lda #0
 	sta <NTSC_MODE
 
 	jsr _ppu_off
@@ -216,7 +220,7 @@ detectNTSC:
 	sta PPU_SCROLL
 	sta PPU_OAM_ADDR
 
-	jmp _main			;no parameters
+	jmp _main ;no parameters
 
 	.include "neslib.sinc"
 
@@ -228,7 +232,7 @@ detectNTSC:
 
 .segment "VECTORS"
 
-	.word nmi	;$fffa vblank nmi
-	.word start	;$fffc reset
-	.word irq	;$fffe irq / brk
+	.word nmi   ;$fffa vblank nmi
+	.word start ;$fffc reset
+	.word irq   ;$fffe irq / brk
 
