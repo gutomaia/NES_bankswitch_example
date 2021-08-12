@@ -26,6 +26,9 @@ jobs:
         with:
           name: bankswitch.nes
           path: bin/bankswitch.nes
+        with:
+          name: bankswitch.dbg
+          path: bin/bankswitch.dbg
   notify_email:
     needs: [build]
     if:
