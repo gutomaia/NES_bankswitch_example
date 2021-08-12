@@ -87,21 +87,12 @@ void draw_text(word addr, const char* text) {
 
 // link the pattern table into CHR ROM
 //#link "chr_generic.s"
-extern byte * chars[];
+extern byte chars[];
 
 
 void load_chars(){
-  byte *tile = ((byte*) chars);
-  int i=0;
-  int j=0;
-
   vram_adr(0);
-  for (i=0; i < 255; i++) {
-    for (j=0; j< 16; j++) {
-      vram_put(*tile);
-      tile++;
-    }
-  }
+  vram_write(chars,255*16);
 }
 
 void main(void)
